@@ -1,0 +1,52 @@
+ENTITY calculadora IS
+PORT (
+	clk	: IN BIT;
+	sel0	: IN BIT;
+	sel1	: IN BIT;
+	a	: OUT BIT_VECTOR(3 DOWNTO 0);
+	s	: OUT BIT_VECTOR(3 DOWNTO 0);
+	cout	: OUT BIT
+);
+END calculadora;
+
+ARCHITECTURE behavioral OF calculadora IS
+
+	SIGNAL inv_out	: BIT_VECTOR(3 DOWNTO 0);
+	SIGNAL mux0_out	: BIT_VECTOR(3 DOWNTO 0);
+	SIGNAL sum_out	: BIT_VECTOR(3 DOWNTO 0);
+	SIGNAL mux1_out : BIT_VECTOR(3 DOWNTO 0);
+	SIGNAL reg_acc	: BIT_VECTOR(3 DOWNTO 0 := "0000";
+
+	SIGNAL clk_delayed : BIT;
+	CONSTANT T_CLK_DELAY : TIME := 1 ns;
+	CONSTANT T_LOGIC_GATE: TIME := 2 ns;
+
+BEGIN
+
+	clk_delayed <= clk AFTER T_CLK_DELAY;
+	inv_out <= NOT a AFTER T_LOGIC_GATE;
+	mux0_out <= inv_out WHEN sel0 = '1' ELSE a AFTER T_LOGIC_GATE;
+
+	PROCESS(mux0_out, reg_acc, sel0)
+		VARIABLE c : BIT;
+	BEGIN
+		c := sel0;
+		FOR i IN 0 TO 3 LOOP
+		  sum_out(i) <= mux0_out(i) XOR reg_acc(i) XOR c;
+		  c:= (mux0_out(i) AND reg_acc(i)) OR (mux0_out(i) AND c) OR (reg_acc(i) AND c);
+		END LOOP;
+		cout <= c AFTER T_LOGIC_GATE;
+	END PROCESS;
+
+	mux1_out <= sum_out WHEN sel1 = '1' ELSE mux0_out AFTER T_LOGIC_GATE;
+
+	PROCESS(clk_delayed)
+	BEGIN
+	 IF (clk_delayed'EVENT AND clk_delayed = '1') THEN
+		reg_acc <= mux1_out AFTER T_LOGIC_GATE;
+	 END IF;
+	END PROCESS;
+
+	s <= reg_acc;
+END behavioral;
+
