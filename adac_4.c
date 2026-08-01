@@ -12,6 +12,7 @@ int cin = 0;
 
 int acc = 0;
 int cout = 0;
+int registrador_valido = 0; /* 0 ate a 1a borda de subida de clk acontecer */
 
 char *inttostr(inteiro)
 int inteiro;
@@ -31,6 +32,8 @@ void adac_4(int a, int sel0, int sel1, int cin, int clk){
     int result;
 
     if (clk == 1 && last_clk == 0){
+
+        registrador_valido = 1;
 
         if (sel0 == 0 && sel1 == 0){
             /* Instrucao 00: copia A para ACC */
@@ -69,8 +72,14 @@ void aplicar(int va, int vsel0, int vsel1, int vcin){
         AFFECT(inttostr(tempo), "sel0", inttostr(sel0));
         AFFECT(inttostr(tempo), "sel1", inttostr(sel1));
         AFFECT(inttostr(tempo), "cin",  inttostr(cin));
-        AFFECT(inttostr(tempo), "s",    inttostr(acc));
-        AFFECT(inttostr(tempo), "cout", inttostr(cout));
+
+        if (registrador_valido){
+            /* So afirmamos s/cout depois que acc teve um valor real gravado.
+               Antes disso, deixamos sem AFFECT (fica "*", nao especificado),
+               pois o registrador do .vbe ainda nao foi inicializado. */
+            AFFECT(inttostr(tempo), "s",    inttostr(acc));
+            AFFECT(inttostr(tempo), "cout", inttostr(cout));
+        }
 
         tempo++;
         last_clk = clk;
@@ -96,35 +105,38 @@ main() {
     AFFECT("0", "vdd", "0b1");
     AFFECT("0", "vss", "0b0");
 
-    /* --- SET: zera o acumulador copiando A = 0 --- */
-    LABEL("set");
-    aplicar(0, 0, 0, 0);
+    /* Ordem dos testes escolhida para que (sel0, sel1) andem como um
+       contador binario limpo, sem "resets" no meio:
+           sel0 sel1
+       00:   0    0   -> copy
+       01:   1    0   -> invert   (sel0, o bit menos significativo, sobe)
+       10:   0    1   -> sum      (os dois bits trocam ao mesmo tempo, "vai um")
+       11:   1    1   -> subtract (sel0 sobe de novo)
+       Nao zeramos o ACC entre as fases: cada operacao simplesmente
+       continua a partir do valor deixado pela fase anterior. */
 
     /* --- COPY (sel0=0, sel1=0): ACC <= A --- */
     LABEL("copy");
     for (i = 0; i < 16; i++)
         aplicar(i, 0, 0, 0);
 
-    /* --- SUM (sel0=0, sel1=1): ACC <= A + ACC + Cin, com Cin = 0 --- */
-    LABEL("sum");
-    aplicar(0, 0, 0, 0); /* zera ACC antes de somar */
-    for (i = 0; i < 16; i++)
-        aplicar(i, 0, 1, 0);
-
-    /* --- SUM com Cin = 1 --- */
-    LABEL("sum_cin");
-    aplicar(0, 0, 0, 0);
-    for (i = 0; i < 16; i++)
-        aplicar(i, 0, 1, 1);
-
     /* --- INVERT (sel0=1, sel1=0): ACC <= NOT A --- */
     LABEL("invert");
     for (i = 0; i < 16; i++)
         aplicar(i, 1, 0, 0);
 
+    /* --- SUM (sel0=0, sel1=1): ACC <= A + ACC + Cin, com Cin = 0 --- */
+    LABEL("sum_cin0");
+    for (i = 0; i < 16; i++)
+        aplicar(i, 0, 1, 0);
+
+    /* --- SUM com Cin = 1 (sel0/sel1 continuam os mesmos, so o Cin muda) --- */
+    LABEL("sum_cin1");
+    for (i = 0; i < 16; i++)
+        aplicar(i, 0, 1, 1);
+
     /* --- SUBTRACT (sel0=1, sel1=1): ACC <= ACC - A --- */
     LABEL("subtract");
-    aplicar(15, 0, 0, 0); /* seta ACC = 15 antes de subtrair */
     for (i = 0; i < 16; i++)
         aplicar(i, 1, 1, 0);
 
