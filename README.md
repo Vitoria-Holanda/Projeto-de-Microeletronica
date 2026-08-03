@@ -26,3 +26,18 @@ Usando a ferramenta Asimut para simular o circuito comportamental (.vbe), sem at
 
 Para visualização do resultado gerado pelo Asimut, usamos:
 `xpat -l adac_4_res`
+
+Utilizando Boom, boog e depois obtendo a esquemática do XSCH
+
+boom -V adac_4_vasy adac_4_vasy_boom
+
+boom -A -d 100 adac_4_vasy adac_4_vasy_boom
+
+proof -a -d adac_4_vasy adac_4_vasy_boom
+^ Usar para obter o arquivo adac_4_vasy_boom_boog.vst
+
+xsch -l adac_4_vasy_boom_boog
+
+boog adac_4_vasy adac_4_antes
+v necessario para comparação com adac_4_vasy_boom_boog
+xsch -l adac_4_antes
