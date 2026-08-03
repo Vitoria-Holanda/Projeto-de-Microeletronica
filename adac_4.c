@@ -15,6 +15,7 @@ int cout = 0;
 int registrador_valido = 0; /* 0 ate a 1a borda de subida de clk acontecer */
 
 #define DELAY 10  
+#define DELAY_COUT 12
 
 char *inttostr(inteiro)
 int inteiro;
@@ -83,7 +84,7 @@ void aplicar(int va, int vsel0, int vsel1, int vcin){
     }
 
     last_clk = clk;
-    tempo += DELAY;
+    tempo += DELAY_COUT;
 
     /* --- Fase 2: borda de subida do clock --- */
     clk = 1;
