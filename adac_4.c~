@@ -62,13 +62,17 @@ void adac_4(int a, int sel0, int sel1, int cin, int clk){
     }
 }
 
-/* Aplica um estimulo e registra o ciclo completo de clock (0 -> 1) */
+/* Aplica um estimulo com espacamento de tempo real entre as fases:
+   1) muda entradas com clk=0
+   2) espera SETUP_NS, sobe o clock (borda de subida)
+   3) espera HOLD_NS, so entao checa s/cout
+   4) espera GAP_NS com clk=0 antes do proximo vetor */
 void aplicar(int va, int vsel0, int vsel1, int vcin){
     a = va; sel0 = vsel0; sel1 = vsel1; cin = vcin;
 
     /* --- Fase 1: clk=0, aplica novas entradas --- */
     clk = 0;
-    adac_4(a, sel0, sel1, cin, clk); 
+    adac_4(a, sel0, sel1, cin, clk); /* nao faz nada (sem borda), so mantem o modelo consistente */
 
     AFFECT(inttostr(tempo), "clk",  inttostr(clk));
     AFFECT(inttostr(tempo), "a",    inttostr(a));
@@ -96,9 +100,6 @@ void aplicar(int va, int vsel0, int vsel1, int vcin){
 
     /* --- Fase 3: checa s/cout ja com folga para o clock-to-Q --- */
     if (registrador_valido){
-	/* So afirmamos s/cout depois que acc teve um valor real gravado.
-               Antes disso, deixamos sem AFFECT (fica "*", nao especificado),
-               pois o registrador do .vbe ainda nao foi inicializado. */
         AFFECT(inttostr(tempo), "s",    inttostr(acc));
         AFFECT(inttostr(tempo), "cout", inttostr(cout));
     }
@@ -118,7 +119,7 @@ main() {
     int i;
 
     DEF_GENPAT("adac_4");
-    SETTUNIT("ns"); //mudar a escala para nanosegundos
+    SETTUNIT("ns");
 
     DECLAR("vdd",  ":2", "B", IN,  "",           "");
     DECLAR("vss",  ":2", "B", IN,  "",           "");
