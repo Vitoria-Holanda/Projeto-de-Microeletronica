@@ -1,0 +1,331 @@
+* Spice description of m_adac_4_spice
+* Spice driver version -1218317767
+* Date ( dd/mm/yyyy hh:mm:ss ):  4/08/2026 at 12:07:05
+
+* INTERF a[0] a[1] a[2] a[3] cin clk cout s[0] s[1] s[2] s[3] sel0 sel1 vdd 
+* INTERF vss 
+
+.INCLUDE rowend_x0.spi
+.INCLUDE tie_x0.spi
+.INCLUDE ao22_x2.spi
+.INCLUDE a3_x2.spi
+.INCLUDE noa2ao222_x1.spi
+.INCLUDE nao2o22_x1.spi
+.INCLUDE na3_x1.spi
+.INCLUDE oa22_x2.spi
+.INCLUDE na2_x1.spi
+.INCLUDE nao22_x1.spi
+.INCLUDE buf_x2.spi
+.INCLUDE no2_x1.spi
+.INCLUDE on12_x1.spi
+.INCLUDE no3_x1.spi
+.INCLUDE o3_x2.spi
+.INCLUDE a2_x2.spi
+.INCLUDE noa22_x1.spi
+.INCLUDE oa2ao222_x2.spi
+.INCLUDE inv_x2.spi
+.INCLUDE sff1_x4.spi
+.INCLUDE nxr2_x1.spi
+.INCLUDE xr2_x1.spi
+
+.subckt m_adac_4_spice 113 97 52 32 115 109 1 90 85 41 2 104 103 114 99 
+* NET 1 = cout
+* NET 2 = s[3]
+* NET 3 = rtlalc_9
+* NET 4 = xr2_x1_29_sig
+* NET 5 = xr2_x1_34_sig
+* NET 6 = nxr2_x1_4_sig
+* NET 7 = noa22_x1_5_sig
+* NET 8 = noa22_x1_4_sig
+* NET 9 = xr2_x1_33_sig
+* NET 10 = not_acc[3]
+* NET 11 = nao2o22_x1_sig
+* NET 12 = a2_x2_4_sig
+* NET 13 = xr2_x1_32_sig
+* NET 14 = ao22_x2_sig
+* NET 15 = noa22_x1_6_sig
+* NET 16 = not_rtlcarry_0[3]
+* NET 17 = oa2ao222_x2_2_sig
+* NET 18 = a2_x2_5_sig
+* NET 19 = xr2_x1_28_sig
+* NET 20 = oa22_x2_3_sig
+* NET 21 = xr2_x1_27_sig
+* NET 22 = nxr2_x1_5_sig
+* NET 23 = a2_x2_2_sig
+* NET 24 = rtlcarry_0[3]
+* NET 25 = inv_x2_sig
+* NET 26 = acc[3]
+* NET 27 = xr2_x1_31_sig
+* NET 28 = xr2_x1_30_sig
+* NET 29 = a3_x2_sig
+* NET 30 = not_a[3]
+* NET 31 = na2_x1_5_sig
+* NET 32 = a[3]
+* NET 33 = na2_x1_4_sig
+* NET 34 = xr2_x1_25_sig
+* NET 35 = nxr2_x1_3_sig
+* NET 36 = xr2_x1_23_sig
+* NET 37 = xr2_x1_24_sig
+* NET 38 = not_rtlcarry_0[2]
+* NET 39 = xr2_x1_26_sig
+* NET 40 = rtlcarry_6[3]
+* NET 41 = s[2]
+* NET 42 = oa22_x2_2_sig
+* NET 43 = a2_x2_3_sig
+* NET 44 = no2_x1_3_sig
+* NET 45 = noa22_x1_3_sig
+* NET 46 = noa2ao222_x1_sig
+* NET 47 = xr2_x1_19_sig
+* NET 48 = rtlcarry_3[3]
+* NET 49 = xr2_x1_5_sig
+* NET 50 = xr2_x1_4_sig
+* NET 51 = nxr2_x1_2_sig
+* NET 52 = a[2]
+* NET 53 = xr2_x1_22_sig
+* NET 54 = acc[2]
+* NET 55 = na2_x1_3_sig
+* NET 56 = rtlcarry_6[2]
+* NET 57 = xr2_x1_17_sig
+* NET 58 = xr2_x1_18_sig
+* NET 59 = rtlcarry_3[2]
+* NET 60 = xr2_x1_2_sig
+* NET 61 = xr2_x1_3_sig
+* NET 62 = xr2_x1_21_sig
+* NET 63 = noa22_x1_2_sig
+* NET 64 = xr2_x1_20_sig
+* NET 65 = xr2_x1_13_sig
+* NET 66 = xr2_x1_14_sig
+* NET 67 = no2_x1_2_sig
+* NET 68 = xr2_x1_12_sig
+* NET 69 = xr2_x1_10_sig
+* NET 70 = xr2_x1_11_sig
+* NET 71 = not_rtlcarry_0[1]
+* NET 72 = not_acc[1]
+* NET 73 = rtlcarry_0[2]
+* NET 74 = a2_x2_sig
+* NET 75 = not_sel1
+* NET 76 = na2_x1_2_sig
+* NET 77 = not_aux0
+* NET 78 = no3_x1_sig
+* NET 79 = oa22_x2_sig
+* NET 80 = xr2_x1_16_sig
+* NET 81 = xr2_x1_15_sig
+* NET 82 = rtlcarry_0[1]
+* NET 83 = no2_x1_sig
+* NET 84 = acc[1]
+* NET 85 = s[1]
+* NET 86 = nao22_x1_2_sig
+* NET 87 = na3_x1_sig
+* NET 88 = na2_x1_sig
+* NET 89 = not_sel0
+* NET 90 = s[0]
+* NET 91 = rtlcarry_6[1]
+* NET 92 = on12_x1_sig
+* NET 93 = o3_x2_sig
+* NET 94 = no3_x1_2_sig
+* NET 95 = rtlcarry_3[1]
+* NET 96 = xr2_x1_sig
+* NET 97 = a[1]
+* NET 98 = inv_x2_2_sig
+* NET 99 = vss
+* NET 100 = not_acc[0]
+* NET 101 = oa2ao222_x2_sig
+* NET 102 = nao22_x1_sig
+* NET 103 = sel1
+* NET 104 = sel0
+* NET 105 = not_a[0]
+* NET 106 = xr2_x1_8_sig
+* NET 107 = xr2_x1_6_sig
+* NET 108 = noa22_x1_sig
+* NET 109 = clk
+* NET 110 = acc[0]
+* NET 111 = nxr2_x1_sig
+* NET 112 = xr2_x1_7_sig
+* NET 113 = a[0]
+* NET 114 = vdd
+* NET 115 = cin
+* NET 116 = xr2_x1_9_sig
+xrowendx0_76 114 99 rowend_x0
+xtiex0_75 114 99 tie_x0
+xtiex0_74 114 99 tie_x0
+xrowendx0_73 114 99 rowend_x0
+xtiex0_72 114 99 tie_x0
+xtiex0_71 114 99 tie_x0
+xtiex0_70 114 99 tie_x0
+xtiex0_69 114 99 tie_x0
+xtiex0_68 114 99 tie_x0
+xtiex0_67 114 99 tie_x0
+xtiex0_66 114 99 tie_x0
+xtiex0_65 114 99 tie_x0
+xrowendx0_64 114 99 rowend_x0
+xtiex0_63 114 99 tie_x0
+xtiex0_62 114 99 tie_x0
+xtiex0_61 114 99 tie_x0
+xtiex0_60 114 99 tie_x0
+xtiex0_59 114 99 tie_x0
+xtiex0_58 114 99 tie_x0
+xtiex0_57 114 99 tie_x0
+xtiex0_56 114 99 tie_x0
+xtiex0_55 114 99 tie_x0
+xtiex0_54 114 99 tie_x0
+xtiex0_53 114 99 tie_x0
+xtiex0_52 114 99 tie_x0
+xtiex0_51 114 99 tie_x0
+xrowendx0_50 114 99 rowend_x0
+xtiex0_49 114 99 tie_x0
+xtiex0_48 114 99 tie_x0
+xtiex0_47 114 99 tie_x0
+xtiex0_46 114 99 tie_x0
+xtiex0_45 114 99 tie_x0
+xtiex0_44 114 99 tie_x0
+xtiex0_43 114 99 tie_x0
+xrowendx0_42 114 99 rowend_x0
+xrowendx0_41 114 99 rowend_x0
+xtiex0_40 114 99 tie_x0
+xtiex0_39 114 99 tie_x0
+xtiex0_38 114 99 tie_x0
+xtiex0_37 114 99 tie_x0
+xtiex0_36 114 99 tie_x0
+xtiex0_35 114 99 tie_x0
+xtiex0_34 114 99 tie_x0
+xtiex0_33 114 99 tie_x0
+xtiex0_32 114 99 tie_x0
+xtiex0_31 114 99 tie_x0
+xtiex0_30 114 99 tie_x0
+xtiex0_29 114 99 tie_x0
+xtiex0_28 114 99 tie_x0
+xtiex0_27 114 99 tie_x0
+xtiex0_26 114 99 tie_x0
+xtiex0_25 114 99 tie_x0
+xtiex0_24 114 99 tie_x0
+xtiex0_23 114 99 tie_x0
+xtiex0_22 114 99 tie_x0
+xtiex0_21 114 99 tie_x0
+xtiex0_20 114 99 tie_x0
+xtiex0_19 114 99 tie_x0
+xtiex0_18 114 99 tie_x0
+xtiex0_17 114 99 tie_x0
+xtiex0_16 114 99 tie_x0
+xtiex0_15 114 99 tie_x0
+xtiex0_14 114 99 tie_x0
+xtiex0_13 114 99 tie_x0
+xtiex0_12 114 99 tie_x0
+xtiex0_11 114 99 tie_x0
+xtiex0_10 114 99 tie_x0
+xtiex0_9 114 99 tie_x0
+xtiex0_8 114 99 tie_x0
+xtiex0_7 114 99 tie_x0
+xtiex0_6 114 99 tie_x0
+xtiex0_5 114 99 tie_x0
+xtiex0_4 114 99 tie_x0
+xtiex0_3 114 99 tie_x0
+xtiex0_2 114 99 tie_x0
+xtiex0_1 114 99 tie_x0
+xcout_ins 3 1 114 99 buf_x2
+xs_3_ins 26 2 114 99 buf_x2
+xnot_acc_3_ins 26 10 114 99 inv_x2
+xnxr2_x1_4_ins 4 26 6 114 99 nxr2_x1
+xrtlalc_9_ins 109 14 3 114 99 sff1_x4
+xacc_3_ins 109 8 26 114 99 sff1_x4
+xxr2_x1_29_ins 24 32 4 114 99 xr2_x1
+xxr2_x1_33_ins 40 5 9 114 99 xr2_x1
+xxr2_x1_34_ins 26 32 5 114 99 xr2_x1
+xnoa22_x1_5_ins 6 104 75 7 114 99 noa22_x1
+xa2_x2_4_ins 16 10 12 114 99 a2_x2
+xnao2o22_x1_ins 32 12 10 16 11 114 99 nao2o22_x1
+xnoa22_x1_6_ins 11 104 75 15 114 99 noa22_x1
+xao22_x2_ins 13 77 15 14 114 99 ao22_x2
+xnot_rtlcarry_0_3_ins 24 16 114 99 inv_x2
+xnoa22_x1_4_ins 22 7 20 8 114 99 noa22_x1
+xoa2ao222_x2_2_ins 26 32 32 26 40 17 114 99 oa2ao222_x2
+xxr2_x1_32_ins 18 17 13 114 99 xr2_x1
+xa2_x2_5_ins 9 48 18 114 99 a2_x2
+xxr2_x1_27_ins 19 26 21 114 99 xr2_x1
+xxr2_x1_28_ins 24 32 19 114 99 xr2_x1
+xinv_x2_ins 54 25 114 99 inv_x2
+xoa22_x2_3_ins 21 77 29 20 114 99 oa22_x2
+xnxr2_x1_5_ins 28 48 22 114 99 nxr2_x1
+xa2_x2_2_ins 52 38 23 114 99 a2_x2
+xxr2_x1_19_ins 54 52 47 114 99 xr2_x1
+xrtlcarry_0_3_ins 23 25 38 52 24 114 99 nao2o22_x1
+xxr2_x1_31_ins 26 32 27 114 99 xr2_x1
+xxr2_x1_30_ins 40 27 28 114 99 xr2_x1
+xnot_a_3_ins 32 30 114 99 inv_x2
+xa3_x2_ins 75 31 33 29 114 99 a3_x2
+xna2_x1_5_ins 104 30 31 114 99 na2_x1
+xxr2_x1_24_ins 54 52 37 114 99 xr2_x1
+xna2_x1_4_ins 32 89 33 114 99 na2_x1
+xxr2_x1_25_ins 56 39 34 114 99 xr2_x1
+xnxr2_x1_3_ins 59 34 35 114 99 nxr2_x1
+xxr2_x1_23_ins 73 37 36 114 99 xr2_x1
+xoa22_x2_2_ins 35 36 75 42 114 99 oa22_x2
+xnot_rtlcarry_0_2_ins 73 38 114 99 inv_x2
+xxr2_x1_26_ins 54 52 39 114 99 xr2_x1
+xrtlcarry_6_3_ins 54 52 52 54 56 40 114 99 oa2ao222_x2
+xs_2_ins 54 41 114 99 buf_x2
+xa2_x2_3_ins 104 52 43 114 99 a2_x2
+xno2_x1_3_ins 75 51 44 114 99 no2_x1
+xxr2_x1_5_ins 54 52 49 114 99 xr2_x1
+xnoa2ao222_x1_ins 42 43 45 44 55 46 114 99 noa2ao222_x1
+xnoa22_x1_3_ins 75 52 104 45 114 99 noa22_x1
+xacc_2_ins 109 46 54 114 99 sff1_x4
+xxr2_x1_18_ins 56 47 58 114 99 xr2_x1
+xrtlcarry_3_3_ins 50 59 48 114 99 a2_x2
+xxr2_x1_4_ins 56 49 50 114 99 xr2_x1
+xxr2_x1_21_ins 54 52 62 114 99 xr2_x1
+xnxr2_x1_2_ins 73 53 51 114 99 nxr2_x1
+xxr2_x1_22_ins 54 52 53 114 99 xr2_x1
+xna2_x1_3_ins 63 57 55 114 99 na2_x1
+xrtlcarry_6_2_ins 84 97 97 84 91 56 114 99 oa2ao222_x2
+xxr2_x1_17_ins 59 58 57 114 99 xr2_x1
+xrtlcarry_3_2_ins 60 95 59 114 99 a2_x2
+xxr2_x1_2_ins 61 84 60 114 99 xr2_x1
+xxr2_x1_3_ins 91 97 61 114 99 xr2_x1
+xxr2_x1_12_ins 66 65 68 114 99 xr2_x1
+xxr2_x1_20_ins 73 62 64 114 99 xr2_x1
+xnoa22_x1_2_ins 64 104 75 63 114 99 noa22_x1
+xno2_x1_2_ins 89 69 67 114 99 no2_x1
+xxr2_x1_13_ins 91 97 65 114 99 xr2_x1
+xxr2_x1_14_ins 95 84 66 114 99 xr2_x1
+xno3_x1_ins 68 67 75 78 114 99 no3_x1
+xnot_sel0_ins 104 89 114 99 inv_x2
+xnot_rtlcarry_0_1_ins 82 71 114 99 inv_x2
+xxr2_x1_11_ins 82 97 70 114 99 xr2_x1
+xa2_x2_ins 71 72 74 114 99 a2_x2
+xxr2_x1_10_ins 70 84 69 114 99 xr2_x1
+xrtlcarry_0_2_ins 97 74 72 71 73 114 99 nao2o22_x1
+xnot_acc_1_ins 84 72 114 99 inv_x2
+xnot_sel1_ins 103 75 114 99 inv_x2
+xna3_x1_ins 75 76 88 87 114 99 na3_x1
+xna2_x1_2_ins 113 89 76 114 99 na2_x1
+xnot_aux0_ins 104 103 77 114 99 a2_x2
+xoa22_x2_ins 81 77 92 79 114 99 oa22_x2
+xxr2_x1_16_ins 82 97 80 114 99 xr2_x1
+xno2_x1_ins 79 78 83 114 99 no2_x1
+xxr2_x1_15_ins 80 84 81 114 99 xr2_x1
+xrtlcarry_0_1_ins 113 100 82 114 99 na2_x1
+xacc_1_ins 109 83 84 114 99 sff1_x4
+xs_1_ins 84 85 114 99 buf_x2
+xnao22_x1_ins 107 86 87 102 114 99 nao22_x1
+xna2_x1_ins 104 105 88 114 99 na2_x1
+xnao22_x1_2_ins 103 105 89 86 114 99 nao22_x1
+xs_0_ins 110 90 114 99 buf_x2
+xrtlcarry_6_1_ins 105 100 91 114 99 no2_x1
+xon12_x1_ins 93 94 92 114 99 on12_x1
+xno3_x1_2_ins 98 89 103 94 114 99 no3_x1
+xo3_x2_ins 104 97 103 93 114 99 o3_x2
+xrtlcarry_3_1_ins 96 115 95 114 99 a2_x2
+xxr2_x1_ins 110 113 96 114 99 xr2_x1
+xinv_x2_2_ins 97 98 114 99 inv_x2
+xnot_acc_0_ins 110 100 114 99 inv_x2
+xnoa22_x1_ins 101 106 102 108 114 99 noa22_x1
+xoa2ao222_x2_ins 111 103 103 113 104 101 114 99 oa2ao222_x2
+xnot_a_0_ins 113 105 114 99 inv_x2
+xxr2_x1_8_ins 110 105 106 114 99 xr2_x1
+xxr2_x1_6_ins 110 112 107 114 99 xr2_x1
+xacc_0_ins 109 108 110 114 99 sff1_x4
+xnxr2_x1_ins 110 116 111 114 99 nxr2_x1
+xxr2_x1_7_ins 115 113 112 114 99 xr2_x1
+xxr2_x1_9_ins 115 113 116 114 99 xr2_x1
+.ends m_adac_4_spice
+
