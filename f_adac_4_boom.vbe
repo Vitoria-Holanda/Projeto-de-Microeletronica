@@ -1,0 +1,102 @@
+-- VHDL data flow description generated from `f_adac_4_boom`
+--		date : Mon Aug  3 22:06:41 2026
+
+
+-- Entity Declaration
+
+ENTITY f_adac_4_boom IS
+  PORT (
+  a : in bit_vector(3 DOWNTO 0) ;	-- a
+  sel0 : in BIT;	-- sel0
+  sel1 : in BIT;	-- sel1
+  cin : in BIT;	-- cin
+  clk : in BIT;	-- clk
+  s : out bit_vector(3 DOWNTO 0) ;	-- s
+  cout : out BIT;	-- cout
+  vdd : in BIT;	-- vdd
+  vss : in BIT	-- vss
+  );
+END f_adac_4_boom;
+
+
+-- Architecture Declaration
+
+ARCHITECTURE behaviour_data_flow OF f_adac_4_boom IS
+  SIGNAL rtlalc_9 : REG_BIT REGISTER;	-- rtlalc_9
+  SIGNAL acc : REG_VECTOR(3 DOWNTO 0) REGISTER;	-- acc
+  SIGNAL rtlcarry_6 : BIT_VECTOR(3 DOWNTO 1);	-- rtlcarry_6
+  SIGNAL rtlcarry_3 : BIT_VECTOR(3 DOWNTO 1);	-- rtlcarry_3
+  SIGNAL rtlcarry_0 : BIT_VECTOR(3 DOWNTO 1);	-- rtlcarry_0
+  SIGNAL aux0 : BIT;		-- aux0
+
+BEGIN
+  aux0 <= (NOT(sel0) OR NOT(sel1));
+  rtlcarry_0 (1) <= (acc(0) OR NOT(a(0)));
+  rtlcarry_0 (2) <= ((NOT(a(1)) AND (acc(1) OR rtlcarry_0(1))) OR (
+acc(1) AND rtlcarry_0(1)));
+  rtlcarry_0 (3) <= ((acc(2) AND (rtlcarry_0(2) OR NOT(a(2)))) OR (
+rtlcarry_0(2) AND NOT(a(2))));
+  rtlcarry_3 (1) <= (cin AND (acc(0) XOR a(0)));
+  rtlcarry_3 (2) <= ((rtlcarry_6(1) XOR a(1) XOR acc(1)) AND 
+rtlcarry_3(1));
+  rtlcarry_3 (3) <= (rtlcarry_3(2) AND (rtlcarry_6(2) XOR acc(2) XOR 
+a(2)));
+  rtlcarry_6 (1) <= (acc(0) AND a(0));
+  rtlcarry_6 (2) <= ((rtlcarry_6(1) AND (acc(1) OR a(1))) OR (acc(1) 
+AND a(1)));
+  rtlcarry_6 (3) <= ((rtlcarry_6(2) AND (a(2) OR acc(2))) OR (a(2) 
+AND acc(2)));
+  label0 : BLOCK ((NOT((clk'STABLE)) AND clk) = '1')
+  BEGIN
+    acc (0) <= GUARDED ((((NOT(sel1) OR (cin XOR (acc(0) XOR a(0)))) AND
+ (NOT(sel0) OR (NOT(sel1) AND NOT(a(0))))) OR NOT(
+acc(0) XOR NOT(a(0)))) AND (sel0 OR (NOT(sel1) AND a(0)
+) OR (cin XOR (acc(0) XOR a(0)))) AND ((sel0 AND 
+NOT(a(0))) OR (NOT(sel0) AND a(0)) OR sel1));
+  END BLOCK label0;
+  label1 : BLOCK ((NOT((clk'STABLE)) AND clk) = '1')
+  BEGIN
+    acc (1) <= GUARDED (((sel0 AND NOT(a(1) XOR (rtlcarry_0(1) XOR 
+acc(1)))) OR NOT(sel1) OR ((rtlcarry_6(1) XOR a(1) XOR 
+acc(1)) XOR rtlcarry_3(1))) AND (NOT(sel0) OR sel1 OR 
+NOT(a(1))) AND (aux0 OR NOT(a(1) XOR (rtlcarry_0(1) 
+XOR acc(1)))) AND (sel0 OR a(1) OR sel1));
+  END BLOCK label1;
+  label2 : BLOCK ((NOT((clk'STABLE)) AND clk) = '1')
+  BEGIN
+    acc (2) <= GUARDED ((NOT(sel0) OR (sel1 AND (NOT(acc(2) XOR (a(2) 
+XOR rtlcarry_0(2))) OR ((rtlcarry_6(2) XOR acc(2) 
+XOR a(2)) XOR rtlcarry_3(2)))) OR NOT(a(2))) AND (((
+NOT(sel0) OR NOT(acc(2) XOR (a(2) XOR rtlcarry_0(2))
+)) AND sel1 AND ((rtlcarry_6(2) XOR acc(2) XOR 
+a(2)) XOR rtlcarry_3(2))) OR ((NOT(sel1) OR NOT(
+acc(2) XOR (a(2) XOR rtlcarry_0(2)))) AND ((a(2) AND 
+NOT(sel1)) OR sel0))));
+  END BLOCK label2;
+  label3 : BLOCK ((NOT((clk'STABLE)) AND clk) = '1')
+  BEGIN
+    acc (3) <= GUARDED (((sel0 AND NOT(a(3) XOR (rtlcarry_0(3) XOR 
+acc(3)))) OR NOT(sel1) OR ((rtlcarry_6(3) XOR a(3) XOR 
+acc(3)) XOR rtlcarry_3(3))) AND (aux0 OR NOT(a(3) XOR (
+rtlcarry_0(3) XOR acc(3)))) AND ((sel0 AND NOT(a(3))) OR (NOT(
+sel0) AND a(3)) OR sel1));
+  END BLOCK label3;
+  label4 : BLOCK ((NOT((clk'STABLE)) AND clk) = '1')
+  BEGIN
+    rtlalc_9 <= GUARDED ((NOT(aux0) OR (((rtlcarry_6(3) AND (acc(3) OR 
+a(3))) OR (acc(3) AND a(3))) XOR (rtlcarry_3(3) AND (
+rtlcarry_6(3) XOR a(3) XOR acc(3))))) AND (NOT(sel0) OR NOT((
+NOT(a(3)) AND (acc(3) OR rtlcarry_0(3))) OR (acc(3) 
+AND rtlcarry_0(3)))) AND sel1);
+  END BLOCK label4;
+
+cout <= rtlalc_9;
+
+s (0) <= acc(0);
+
+s (1) <= acc(1);
+
+s (2) <= acc(2);
+
+s (3) <= acc(3);
+END;
