@@ -53,4 +53,13 @@ Também podemos gerar um .vst com o boog do arquivo b_adac_4_vasy.vbe para compa
 15. Para visualização:
 `xpat -l j_adac_4_delay_res`
 
+16. Geramos o layout físico usando o alliance-ocp:
+`alliance-ocp g_adac_4_boog k_adac_4_layout`
+
+17. Utilizamos nero para fazer o roteamento:
+`nero -p k_adac_4_layout g_adac_4_boog l_adac_4_nero`
+
+18. Podemos visualizar o resultado com o graal:
+`graal -l l_adac_4_nero`
+
 
