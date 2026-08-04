@@ -4,7 +4,7 @@ Projeto final do curso de Introdução à Microeletrônica.
 
 O projeto consiste em um ADAC (adicionador - inversor - acumulador controlável) de 4 bits.
 
-## Roteiro de síntese principal
+## Roteiro de síntese
 
 1. Usando vhdl para descrever o comportamento do ADAC em alto nível geramos manualmente o arquivo: 
 `a_adac_4.vhdl`
@@ -62,45 +62,4 @@ Também podemos gerar um .vst com o boog do arquivo b_adac_4_vasy.vbe para compa
 18. Podemos visualizar o resultado com o graal:
 `graal -l l_adac_4_nero`
 
-## Roteiro de síntese pad-ring
-
-1. Primeiro copiamos o .vst otimizado (g_adac_4_boog.vst) para não gerar uma sobreposição:
-`a_adac_core.vst`
-
-2. Depois, escrevemos o arquivo (.ioc) que para gerar a configuração dos conectores:
-`b_adac_ioc.ioc`
-
-3. Usamos então o alliance-opc para fazer o posicionamento:
-`alliance-ocp -rows 6 -ring -margin 2 -ioc b_adac_ioc a_adac_core c_adac_core_ocp`
-
-4. E usamos o nero para fazer o roteamento:
-`nero -p c_adac_core_ocp a_adac_core a_adac_core`
-
-O arquivo de saída foi chamado de a_adac_core por necessidade que o .ap e .vst tenham o mesmo nome para usar a ferramenta ring
-
-5. Usamos a genlib para fazer a descrição do chip e geramos o arquivo:
-`e_adac.c`
-
-6. Usando a genlib para compilar:
-`genlib e_adac`
-
-Para o genlib funcionar corretamente pode ser necessário alterar as variáveis de ambiente:
-`export MBK_IN_LO=vst`
-`export MBK_OUT_LO=vst`
-
-7. Geramos o arquivo .rin que especifica as posições dos pads:
-`f_adac_chip.rin`
-
-8. Usamos o programa ring para gerar o ring:
-`ring f_adac_chip g_adac_final`
-
-9. Usamos o graal para verificar se está correto:
-`graal -l g_adac_final`
-
-Pode ser necessário mudar as variáveis de ambiente:
-`export MBK_IN_PH=ap`
-
-
-
- 
 
