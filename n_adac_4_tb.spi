@@ -1,24 +1,63 @@
+* Testbench para o ADAC 4 bits (m_adac_4_spice)
+* Gerado a partir do netlist do cougar (m_adac_4_spice.spi)
+
+* o .spi do cougar descreve uma SUBCIRCUITO (.subckt), nao um
+* circuito top-level. Por isso o testbench precisa INSTANCIAR essa subckt
+* (linha X...) respeitando exatamente a ordem dos pinos da interface:
+
+*   .subckt m_adac_4_spice a[0] a[1] a[2] a[3] cin clk cout s[0] s[1] s[2] s[3] sel0 sel1 vdd vss
+
+* (conferido em m_adac_4_spice.spi, linhas "* INTERF ..." e ".subckt ...")
+* Os nomes internos ja saem em minusculo do cougar (a[0], s[0], sel0, sel1,
+* cin, clk, cout, vdd, vss), entao aqui do lado de fora do testbench eu uso
+* nomes livres para os nos externos (a0..a3, s0..s3, etc.) e ligo cada um na
+* posicao correta do pino ao instanciar a subckt.
+
 .include m_adac_4_spice.spi
 
-* Alimentacao (ajuste VDD para o valor da sua tecnologia, ex: 2.5V ou 5V)
-VDD vdd 0 DC 2.5
+* Alimentacao
+.param VALIM = 5.0
+
+VDD vdd 0 DC VALIM
 VSS vss 0 DC 0
 
-* Clock periodico
-VCLK clk 0 PULSE(0 2.5 0 0.1n 0.1n 5n 10n)
+* Clock periodico (periodo 10n, aqui com VALIM na amplitude)
+VCLK clk 0 PULSE(0 VALIM 0 0.1n 0.1n 5n 10n)
 
-* Selecao das operacoes (ajuste os tempos conforme quantos ciclos quiser por fase)
-VSEL0 sel0 0 PWL(0 0  40n 0  40n 2.5  120n 2.5  120n 0  200n 0  200n 2.5  280n 2.5)
-VSEL1 sel1 0 PWL(0 0  80n 0  80n 2.5  200n 2.5  200n 2.5  280n 2.5)
-VCIN  cin  0 DC 0
+* Selecao das operacoes (sel1 sel0): 00 COPY, 01 SUM, 10 INV, 11 SUB.
+* Cada fase dura 8 ciclos de clock (80n), dando tempo do acumulador
+* (sff1_x4) estabilizar e propagar antes de trocar de operacao.
+VSEL0 sel0 0 PWL(0 0
++ 80n     0     80.1n VALIM   160n VALIM
++ 160.1n  0     240n  0
++ 240.1n  VALIM 320n  VALIM
++ 320.1n  0     400n  0
++ 400.1n  VALIM 480n  VALIM
++ 480.1n  0     560n  0
++ 560.1n  VALIM 640n  VALIM)
 
-* Entrada A (varia a cada ciclo de clock - exemplo simplificado)
-VA0 a0 0 PULSE(0 2.5 0 0.1n 0.1n 10n 20n)
-VA1 a1 0 PULSE(0 2.5 0 0.1n 0.1n 20n 40n)
-VA2 a2 0 PULSE(0 2.5 0 0.1n 0.1n 40n 80n)
-VA3 a3 0 PULSE(0 2.5 0 0.1n 0.1n 80n 160n)
+VSEL1 sel1 0 PWL(0 0
++ 160n    0     160.1n VALIM  320n VALIM
++ 320.1n  0     480n   0
++ 480.1n  VALIM 640n   VALIM)
 
-.tran 0.1n 300n
+VCIN  cin  0 PWL(0 0  320n 0  320.1n VALIM  640n VALIM)
+
+* Entrada A (varia a cada ciclo de clock, cobrindo varios padroes de bits
+* ao longo de toda a simulacao de 400n = 40 ciclos de clock)
+VA0 a0 0 PULSE(0 VALIM 0 0.1n 0.1n 10n 20n)
+VA1 a1 0 PULSE(0 VALIM 0 0.1n 0.1n 20n 40n)
+VA2 a2 0 PULSE(0 VALIM 0 0.1n 0.1n 40n 80n)
+VA3 a3 0 PULSE(0 VALIM 0 0.1n 0.1n 80n 160n)
+
+* Instanciacao do ADAC (ordem dos pinos EXATA conforme .subckt):
+* a[0] a[1] a[2] a[3] cin clk cout s[0] s[1] s[2] s[3] sel0 sel1 vdd vss
+Xadac a0 a1 a2 a3 cin clk cout s0 s1 s2 s3 sel0 sel1 vdd vss m_adac_4_spice
+
+* Tempo total de simulacao: 400n = 40 ciclos de clock de 10n,
+* cobrindo as 4 fases de 80n definidas acima (ADD/ACC/SUB/etc.)
+.tran 0.1n 400n
+
 .control
 run
 plot v(clk) v(sel0) v(sel1) v(s3) v(s2) v(s1) v(s0) v(cout)
