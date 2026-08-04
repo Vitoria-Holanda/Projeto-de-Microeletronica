@@ -1,0 +1,26 @@
+.include m_adac_4_spice.spi
+
+* Alimentacao (ajuste VDD para o valor da sua tecnologia, ex: 2.5V ou 5V)
+VDD vdd 0 DC 2.5
+VSS vss 0 DC 0
+
+* Clock periodico
+VCLK clk 0 PULSE(0 2.5 0 0.1n 0.1n 5n 10n)
+
+* Selecao das operacoes (ajuste os tempos conforme quantos ciclos quiser por fase)
+VSEL0 sel0 0 PWL(0 0  40n 0  40n 2.5  120n 2.5  120n 0  200n 0  200n 2.5  280n 2.5)
+VSEL1 sel1 0 PWL(0 0  80n 0  80n 2.5  200n 2.5  200n 2.5  280n 2.5)
+VCIN  cin  0 DC 0
+
+* Entrada A (varia a cada ciclo de clock - exemplo simplificado)
+VA0 a0 0 PULSE(0 2.5 0 0.1n 0.1n 10n 20n)
+VA1 a1 0 PULSE(0 2.5 0 0.1n 0.1n 20n 40n)
+VA2 a2 0 PULSE(0 2.5 0 0.1n 0.1n 40n 80n)
+VA3 a3 0 PULSE(0 2.5 0 0.1n 0.1n 80n 160n)
+
+.tran 0.1n 300n
+.control
+run
+plot v(clk) v(sel0) v(sel1) v(s3) v(s2) v(s1) v(s0) v(cout)
+.endc
+.end
